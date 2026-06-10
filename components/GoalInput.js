@@ -1,5 +1,6 @@
-import { StyleSheet, View, Button, TextInput } from 'react-native';
+import { StyleSheet, View, Button, TextInput, Modal, Image } from 'react-native';
 import { useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
 
 function GoalInput(props) {
   const [enteredGoalText, setEnteredGoalText] = useState('');
@@ -9,27 +10,47 @@ function GoalInput(props) {
   }
 
   function addGoalHandler() {
-    if (enteredGoalText.trim().length === 0) {
-      return;
-    }
-
     props.onAddGoal(enteredGoalText);
     setEnteredGoalText('');
   }
 
   return (
-    <View style={styles.inputcontainer}>
+    <>
+    <StatusBar style='light' />
+   <Modal visible={props.visible} animationType='slide'>
+     <View style={styles.inputcontainer}>
+      <Image style={styles.image} source={require ('../assets/Images/goal.png' )} 
+      style={{
+        width: 100,
+        height: 100,
+        tintColor: 'white',
+        marginBottom: 20,
+  }}
+
+  
+ />
       <TextInput
         style={styles.textinput}
         placeholder='Your course goals'
         value={enteredGoalText}
         onChangeText={goalInputHandler}
       />
-      <Button
-        title='Add Goal'
-        onPress={addGoalHandler}
-      />
+      <View style={styles.buttonContainer}>
+        <View style={styles.button}>
+          <Button title='Add Goal' onPress={addGoalHandler} color={"#5e0acc"} />
+          </View>
+          <View style={styles.button}> 
+            <Button title='Cancel' onPress={props.onCancel} color={"#f31282"} />
+
+          </View>
+        
+        
+        
+      </View>
+    
     </View>
+   </Modal>
+    </>
   );
 }
 
@@ -38,18 +59,35 @@ export default GoalInput;
 const styles = StyleSheet.create({
   inputcontainer: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 24,
-    borderBottomWidth: 1,
-    borderBottomColor: 'grey',
+
+    padding: 16,
+   
+    backgroundColor: '#311b6b',
+  },
+  image:{
+    width: 100,
+    height: 100,
+    margin: 20,
   },
   textinput: {
     borderWidth: 1,
-    borderColor: 'black',
-    width: '70%',
-    marginRight: 10,
+    borderColor: '#e4d0ff',
+    backgroundColor: '#e4d0ff',
+    color: '#120438',
+    borderRadius: 6,
+    width: '100%',
+
     padding: 10,
   },
+  buttonContainer:{
+    marginTop: 16,
+    flexDirection: 'row',
+  
+  },
+button: {
+  width: 100,
+  marginHorizontal: 8,
+},
 });
